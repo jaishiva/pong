@@ -1,4 +1,5 @@
 import turtle
+import os
 
 window = turtle.Screen()
 window.title('Pong')
@@ -31,6 +32,9 @@ ball.color('white')
 dx = 2
 dy = 2
 
+# sounds
+def play_sound():
+    os.system('afplay bounce.wav&')
 # paddle movement
 # paddle up
 def paddle_up_a():
@@ -75,11 +79,14 @@ while True:
     # check to see if ball is touching the top and bottom of screen/window
     if ball.ycor()>290 or ball.ycor() < -290:
         dy = -dy
+        play_sound()
     # check to see if the ball is touching the paddles
     if ball.ycor() > paddle_a.ycor()-50 and ball.ycor() < paddle_a.ycor()+50 and ball.xcor() == paddle_a.xcor()+10:
         dx = -dx
+        play_sound()
     if ball.ycor() > paddle_b.ycor()-50 and ball.ycor() < paddle_b.ycor()+50 and ball.xcor() == paddle_b.xcor()-10:
         dx = -dx
+        play_sound()
     # check to see if ball is out of screen, reset its position and increase score
     if ball.xcor() > 400:
         score_a += 1
