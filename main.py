@@ -29,12 +29,18 @@ ball.shape('circle')
 ball.penup()
 ball.goto(0,0)
 ball.color('white')
-dx = 2
-dy = 2
+dx = 3
+dy = 3
 
 # sounds
 def play_sound():
-    os.system('afplay bounce.wav&')
+    if os.sys.platform == 'darwin':
+        os.system('afplay bounce.wav&')
+    elif os.sys.platform == 'win64':
+        os.play_sound('bounce.wav',os.SND_ASYNC)
+    else:
+        os.system('aplay bounce.wav&')
+
 # paddle movement
 # paddle up
 def paddle_up_a():
@@ -47,11 +53,11 @@ def paddle_up_b():
 
 # paddle down
 def paddle_down_a():
-    if paddle_a.ycor() > -250:
+    if paddle_a.ycor() > -240:
         paddle_a.sety(paddle_a.ycor()-20)
 
 def paddle_down_b():
-    if paddle_b.ycor() > -250:
+    if paddle_b.ycor() > -240:
         paddle_b.sety(paddle_b.ycor()-20)
 
 # score
@@ -73,15 +79,12 @@ window.onkeypress(paddle_down_b, 'Down')
 
 
 while True:
-    # move the ball continuously
-    ball.setpos(ball.xcor()+dx,ball.ycor()+dy)
-
     # check to see if ball is touching the top and bottom of screen/window
     if ball.ycor()>290 or ball.ycor() < -290:
         dy = -dy
         play_sound()
     # check to see if the ball is touching the paddles
-    if ball.ycor() > paddle_a.ycor()-50 and ball.ycor() < paddle_a.ycor()+50 and ball.xcor() == paddle_a.xcor()+10:
+    if ball.ycor() > paddle_a.ycor()-50 and ball.ycor() < paddle_a.ycor()+50 and ball.xcor() == paddle_a.xcor()+20:
         dx = -dx
         play_sound()
     if ball.ycor() > paddle_b.ycor()-50 and ball.ycor() < paddle_b.ycor()+50 and ball.xcor() == paddle_b.xcor()-10:
@@ -98,4 +101,6 @@ while True:
         ball.setpos(0,0)
         pen.clear()
         pen.write('Player A {}  Player B {}'.format(score_a,score_b),False, align='center',font=('Courier',24))
+        # move the ball continuously
+    ball.setpos(ball.xcor()+dx,ball.ycor()+dy)
     window.update()
