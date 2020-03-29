@@ -38,14 +38,17 @@ def paddle_up_a():
         paddle_a.sety(paddle_a.ycor()+10)
 
 def paddle_up_b():
-    paddle_b.sety(paddle_b.ycor()+10)
+    if paddle_b.ycor() < 250:
+        paddle_b.sety(paddle_b.ycor()+10)
 
 # paddle down
 def paddle_down_a():
-    paddle_a.sety(paddle_a.ycor()-10)
+    if paddle_a.ycor() > -250:
+        paddle_a.sety(paddle_a.ycor()-10)
 
 def paddle_down_b():
-    paddle_b.sety(paddle_b.ycor()-10)
+    if paddle_b.ycor() > -250:
+        paddle_b.sety(paddle_b.ycor()-10)
 
 # listen for key strokes
 window.listen()
@@ -59,6 +62,8 @@ while True:
     ball.setpos(ball.xcor()+dx,ball.ycor()+dy)
     if ball.ycor()>290 or ball.ycor() < -290:
         dy = -dy
-    if ball.xcor() > 390 or ball.xcor() < -390:
+    if ball.ycor() > paddle_a.ycor()-50 and ball.ycor() < paddle_a.ycor()+50 and ball.xcor() == paddle_a.xcor()+10:
+        dx = -dx
+    if ball.ycor() > paddle_b.ycor()-50 and ball.ycor() < paddle_b.ycor()+50 and ball.xcor() == paddle_b.xcor()-10:
         dx = -dx
     window.update()
